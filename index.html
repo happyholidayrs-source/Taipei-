@@ -23,8 +23,64 @@
         .recommend { color: #d63384; font-weight: bold; font-size: 0.85em; margin-top: 6px; display: block; }
         
         .alert-box { background: #e3f2fd; color: #1976d2; padding: 12px; border-radius: 12px; font-size: 0.85em; margin: 10px 0; font-weight: bold; }
-        .link-btn { display: inline-block; padding: 6px 14px; background: #f0f0f0; color: #555; text-decoration: none; border-radius: 8px; font-size: 0.8em; margin-top: 8px; margin-right: 5px; transition: 0.2s; }
+        .link-btn { display: inline-block; padding: 6px 14px; background: #f0f0f0; color: #555; text-decoration: none; border-radius: 8px; font-size: 0.8em; margin-top: 8px; margin-right: 5px; transition: all 0.3s; }
         .link-btn:hover { background: #ff7eb3; color: white; }
+
+        /* 天気ウィジェットのスタイル */
+        .weather-widget {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .weather-widget h3 {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+        }
+
+        .weather-icon {
+            font-size: 40px;
+            margin: 8px 0;
+        }
+
+        .weather-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .weather-forecast {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 0.8em;
+        }
+
+        .forecast-item {
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        .forecast-item-icon {
+            font-size: 24px;
+            margin: 5px 0;
+        }
+
+        .weather-loading {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
         
         .footer { background: #333; color: white; padding: 25px 20px; font-size: 0.85em; }
         .ref-footer { font-size: 0.7em; opacity: 0.5; margin-top: 15px; display: block; text-align: right; }
@@ -37,6 +93,13 @@
         <h1>TAIPEI & TAICHUNG</h1>
         <p>Gourmet Trip 2026.05.29 - 06.01 🥢</p>
     </div>
+
+    <!-- 天気ウィジェット -->
+    <div class="weather-widget" id="weather-widget">
+        <h3>🌏 台北の天気</h3>
+        <div class="weather-loading">データを読み込み中...</div>
+    </div>
+
 <details style="background: #fff; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;">
   <summary style="font-weight: bold; cursor: pointer; color: #ff7eb3;">👜 持ち物リスト（タップで開く）</summary>
   <ul style="margin-top: 10px; padding-left: 20px;">
@@ -142,10 +205,161 @@
         グッドライフホテル（上華旅棧）<br>
         📍 台北市中山区双城街5号<br>
         📞 +886-2-25911190<br>
-        <a href="https://www.google.com/maps/search/?api=1&query=グッドライフホテル上華旅棧"　 target="_blank"　class="link-btn" style="background:#ff7eb3; color:white; border:none;">Google Mapを開く</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=グッドライフホテル上華旅棧" target="_blank" class="link-btn" style="background:#ff7eb3; color:white; border:none">Google Map</a>
         <span class="ref-footer">Source: 台北&台中旅行（印刷用）.pdf</span>
     </div>
 </div>
+
+<script>
+    const API_KEY = '80b92316eb8553e39066831feb277887';
+    const CITY = 'Taipei';
+    const COUNTRY_CODE = 'TW';
+    const UNITS = 'metric';
+
+    const weatherIcons = {
+        '01d': '☀️',
+        '01n': '🌙',
+        '02d': '⛅',
+        '02n': '⛅',
+        '03d': '☁️',
+        '03n': '☁️',
+        '04d': '☁️',
+        '04n': '☁️',
+        '09d': '🌧️',
+        '09n': '🌧️',
+        '10d': '🌦️',
+        '10n': '🌧️',
+        '11d': '⛈️',
+        '11n': '⛈️',
+        '13d': '❄️',
+        '13n': '❄️',
+        '50d': '🌫️',
+        '50n': '🌫️',
+    };
+
+    async function fetchWeather() {
+        try {
+            // 現在の天気を取得
+            const currentResponse = await fetch(
+                `https://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`
+            );
+
+            if (!currentResponse.ok) {
+                throw new Error('天気データの取得に失敗しました');
+            }
+
+            const currentData = await currentResponse.json();
+
+            // 5日間の予報を取得
+            const forecastResponse = await fetch(
+                `https://api.openweathermap.org/data/2.5/forecast?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`
+            );
+
+            if (!forecastResponse.ok) {
+                throw new Error('予報データの取得に失敗しました');
+            }
+
+            const forecastData = await forecastResponse.json();
+
+            displayWeather(currentData, forecastData);
+        } catch (error) {
+            displayError(error.message);
+        }
+    }
+
+    function displayWeather(currentData, forecastData) {
+        const widget = document.getElementById('weather-widget');
+
+        const currentTemp = Math.round(currentData.main.temp);
+        const humidity = currentData.main.humidity;
+        const windSpeed = currentData.wind.speed;
+        const description = currentData.weather[0].main;
+        const weatherCode = currentData.weather[0].icon;
+        const icon = weatherIcons[weatherCode] || '🌡️';
+
+        // 明日と明後日の予報を取得
+        const today = new Date();
+        const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
+        const dayAfter = new Date(today.getTime() + 48 * 60 * 60 * 1000);
+
+        const tomorrowDate = tomorrow.toISOString().split('T')[0];
+        const dayAfterDate = dayAfter.toISOString().split('T')[0];
+
+        // 予報データから明日と明後日のデータを抽出
+        const forecastsByDate = {};
+        forecastData.list.forEach(forecast => {
+            const date = forecast.dt_txt.split(' ')[0];
+            if (!forecastsByDate[date]) {
+                forecastsByDate[date] = [];
+            }
+            forecastsByDate[date].push(forecast);
+        });
+
+        // 各日の最高気温と最低気温、天気を取得
+        const getForecastForDate = (date) => {
+            const forecasts = forecastsByDate[date] || [];
+            if (forecasts.length === 0) return null;
+
+            const temps = forecasts.map(f => f.main.temp);
+            const maxTemp = Math.round(Math.max(...temps));
+            const minTemp = Math.round(Math.min(...temps));
+            const midDay = forecasts[Math.floor(forecasts.length / 2)];
+            const icon = weatherIcons[midDay.weather[0].icon] || '🌡️';
+            const desc = midDay.weather[0].main;
+
+            return { maxTemp, minTemp, icon, desc };
+        };
+
+        const tomorrowForecast = getForecastForDate(tomorrowDate);
+        const dayAfterForecast = getForecastForDate(dayAfterDate);
+
+        let html = `
+            <h3>🌏 台北の天気</h3>
+            <div class="weather-icon">${icon}</div>
+            <div class="weather-main">
+                <div>気温: ${currentTemp}°C</div>
+                <div>湿度: ${humidity}%</div>
+            </div>
+            <div style="font-size: 0.9em;">${description}</div>
+            <div class="weather-forecast">
+        `;
+
+        if (tomorrowForecast) {
+            html += `
+                <div class="forecast-item">
+                    <strong>明日</strong>
+                    <div class="forecast-item-icon">${tomorrowForecast.icon}</div>
+                    <div>${tomorrowForecast.maxTemp}° / ${tomorrowForecast.minTemp}°</div>
+                </div>
+            `;
+        }
+
+        if (dayAfterForecast) {
+            html += `
+                <div class="forecast-item">
+                    <strong>明後日</strong>
+                    <div class="forecast-item-icon">${dayAfterForecast.icon}</div>
+                    <div>${dayAfterForecast.maxTemp}° / ${dayAfterForecast.minTemp}°</div>
+                </div>
+            `;
+        }
+
+        html += '</div>';
+
+        widget.innerHTML = html;
+    }
+
+    function displayError(message) {
+        const widget = document.getElementById('weather-widget');
+        widget.innerHTML = `<h3>🌏 台北の天気</h3><div style="font-size: 0.9em; opacity: 0.8;">⚠️ ${message}</div>`;
+    }
+
+    // ページロード時に天気データを取得
+    window.addEventListener('DOMContentLoaded', fetchWeather);
+
+    // 30分ごとに自動更新
+    setInterval(fetchWeather, 30 * 60 * 1000);
+</script>
 
 </body>
 </html>
