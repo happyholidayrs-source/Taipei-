@@ -12,20 +12,16 @@
         .day-card { padding: 25px 20px; border-bottom: 1px solid #f0f0f0; }
         .day-title { background: #ff7eb3; color: white; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 0.9em; }
         .date-text { font-size: 1.1em; font-weight: bold; margin-left: 10px; color: #444; }
-        
         .timeline { margin-top: 20px; position: relative; border-left: 2px solid #ffeef4; margin-left: 10px; padding-left: 20px; }
         .event { margin-bottom: 25px; position: relative; }
         .event::before { content: ''; position: absolute; left: -26px; top: 6px; width: 10px; height: 10px; background: #ff7eb3; border-radius: 50%; }
-        
         .time { font-weight: bold; color: #888; font-size: 0.85em; display: block; }
         .desc { font-weight: bold; font-size: 1em; color: #222; display: block; }
         .memo { font-size: 0.85em; color: #666; margin-top: 5px; display: block; background: #fff9fb; padding: 10px; border-radius: 10px; border-left: 4px solid #ff7eb3; }
         .recommend { color: #d63384; font-weight: bold; font-size: 0.85em; margin-top: 6px; display: block; }
-        
         .alert-box { background: #e3f2fd; color: #1976d2; padding: 12px; border-radius: 12px; font-size: 0.85em; margin: 10px 0; font-weight: bold; }
         .link-btn { display: inline-block; padding: 6px 14px; background: #f0f0f0; color: #555; text-decoration: none; border-radius: 8px; font-size: 0.8em; margin-top: 8px; margin-right: 5px; transition: all 0.3s; }
         .link-btn:hover { background: #ff7eb3; color: white; }
-
         .weather-widget { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 15px; margin: 15px 0; text-align: center; }
         .weather-widget h3 { margin: 0 0 10px 0; font-size: 1em; }
         .weather-icon { font-size: 40px; margin: 8px 0; }
@@ -34,9 +30,7 @@
         .forecast-item { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; }
         .forecast-item-icon { font-size: 24px; margin: 5px 0; }
         .weather-loading { animation: pulse 1.5s infinite; }
-
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        
         .footer { background: #333; color: white; padding: 25px 20px; font-size: 0.85em; }
         .ref-footer { font-size: 0.7em; opacity: 0.5; margin-top: 15px; display: block; text-align: right; }
     </style>
@@ -49,7 +43,6 @@
         <p>Gourmet Trip 2026.05.29 - 06.01 🥢</p>
     </div>
 
-    <!-- 天気ウィジェット -->
     <details style="background: #fff; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;" open>
         <summary style="font-weight: bold; cursor: pointer; color: #764ba2;">🌏 台北の天気</summary>
         <div class="weather-widget" id="weather-widget" style="margin-top: 10px;">
@@ -57,7 +50,6 @@
         </div>
     </details>
 
-    <!-- 持ち物リスト -->
     <details style="background: #fff; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;">
         <summary style="font-weight: bold; cursor: pointer; color: #ff7eb3;">👜 持ち物リスト</summary>
         <ul style="margin-top: 10px; padding-left: 20px;">
@@ -70,7 +62,6 @@
         </ul>
     </details>
 
-    <!-- DAY 1 -->
     <div class="day-card">
         <span class="day-title">DAY 1</span><span class="date-text">5/29 (Fri) Arrival</span>
         <div class="timeline">
@@ -82,94 +73,49 @@
             <div class="event">
                 <span class="time">14:25</span>
                 <span class="desc">成田出発（MARIE）</span>
-                <span class="recommend">💡 到着後の夜市に何を食べるか考えながら移動して！</span>
+                <span class="recommend">💡 到着後の夜市に何を食べるか考えて！</span>
             </div>
             <div class="event">
                 <span class="time">19:00頃</span>
                 <span class="desc">ホテル集合 🏨</span>
-                <span class="memo">グッドライフホテル（上華旅棧）ロビー集合</span>
+                <span class="memo">グッドライフホテル ロビー集合</span>
             </div>
             <div class="event">
                 <span class="time">19:30</span>
                 <span class="desc">夜市：臨江街夜市</span>
-                <span class="recommend">🍴 必食：御品元の「冰火湯円」！</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=臨江街夜市" class="link-btn">Google Map</a>
+                <a href="https://www.google.com/maps?q=臨江街夜市" class="link-btn">Google Map</a>
             </div>
         </div>
     </div>
 
-    <!-- DAY 2 -->
     <div class="day-card">
         <span class="day-title">DAY 2</span><span class="date-text">5/30 (Sat) Taichung Day</span>
-        <div class="alert-box">🚅 KKDAY予約済みの新幹線チケットを忘れずに！</div>
+        <div class="alert-box">🚅 KKDAYの新幹線チケットを忘れずに！</div>
         <a href="train0530GO.pdf" target="_blank" class="link-btn" style="background:#4caf50; color:white; border:none">📄 新幹線バウチャー</a>
         <div class="timeline">
             <div class="event">
                 <span class="time">09:51</span>
-                <span class="desc">新幹線で台中へ（目標時間）</span>
+                <span class="desc">新幹線で台中へ</span>
                 <div class="memo">
-                    🎟️ 予約番号（窓口で提示）<br>
-                    ・YUKO: LXSVVA1H<br>
-                    ・MARIE: CY2ETTNS<br>
-                    <a href="https://pass.thsrc.com.tw/oatsb2c/home.do" target="_blank" style="color: #ff7eb3;">🔗 座席指定（公式サイト）</a>
+                    🎟️ 予約番号<br>
+                    ・YUKO: LXSVVA1H / MARIE: CY2ETTNS<br>
+                    <a href="https://pass.thsrc.com.tw/oatsb2c/home.do" target="_blank" style="color: #ff7eb3;">🔗 座席指定</a>
                 </div>
-                <span class="memo">宮原眼科でアイスタイム🍦</span>
-                <span class="recommend">📸 パイナップルケーキをトッピング！</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=宮原眼科" class="link-btn">Google Map</a>
+                <a href="https://www.google.com/maps?q=宮原眼科" class="link-btn">Google Map</a>
             </div>
         </div>
     </div>
 
-    <!-- DAY 3 -->
-    <div class="day-card">
-        <span class="day-title">DAY 3</span><span class="date-text">5/31 (Sun) Taipei Foodie Day</span>
-        <div class="timeline">
-            <div class="event">
-                <span class="time">08:30頃</span>
-                <span class="desc">佳德鳳梨酥 (Chia Te) 🍍</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=佳德鳳梨酥" class="link-btn">Map</a>
-            </div>
-            <div class="event">
-                <span class="time">10:00</span>
-                <span class="desc">台北散策スタート 👟</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=峰圃茶荘" class="link-btn">Map</a>
-            </div>
-            <div class="event">
-                <span class="time">Lunch</span>
-                <span class="desc">西門 梁山泊小籠湯包 🥟</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=梁山泊小籠湯包" class="link-btn">Map</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- DAY 4 -->
-    <div class="day-card" style="border:none;">
-        <span class="day-title">DAY 4</span><span class="date-text">6/01 (Mon) Final Day</span>
-        <div class="timeline">
-            <div class="event">
-                <span class="time">16:20</span>
-                <span class="desc">松山空港出発 ✈️</span>
-            </div>
-            <div class="event">
-                <span class="time">20:20</span>
-                <span class="desc">日本到着予定</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
     <div class="footer">
         <strong>🏨 ホテル情報</strong><br>
         グッドライフホテル（上華旅棧）<br>
         📍 台北市中山区双城街5号<br>
-        📞 +886-2-25911190<br>
-        <a href="https://www.google.com/maps/search/?api=1&query=グッドライフホテル上華旅棧" target="_blank" class="link-btn" style="background:#ff7eb3; color:white; border:none">Google Map</a>
-        <span class="ref-footer">Source: 台北&台中旅行（印刷用）.pdf</span>
+        <span class="ref-footer">Source: 台北&台中旅行.pdf</span>
     </div>
 </div>
 
 <script>
-    const API_KEY = 'acaf708b6e1e1fcc8998e9caa'; // ←メールにあった正しいキーに修正
+    const API_KEY = 'acaf708b6e1e1fcc8998e9caa';
     const CITY = 'Taipei';
     const COUNTRY_CODE = 'TW';
     const UNITS = 'metric';
@@ -182,68 +128,29 @@
 
     async function fetchWeather() {
         try {
-            const currentResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`);
-            if (!currentResponse.ok) throw new Error('現在の天気取得失敗');
-            const currentData = await currentResponse.json();
-
-            const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`);
-            if (!forecastResponse.ok) throw new Error('予報データ取得失敗');
-            const forecastData = await forecastResponse.json();
-
+            const currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`);
+            const currentData = await currentRes.json();
+            const forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`);
+            const forecastData = await forecastRes.json();
             displayWeather(currentData, forecastData);
-        } catch (error) {
-            displayError(error.message);
+        } catch (e) {
+            document.getElementById('weather-widget').innerHTML = '天気読み込みエラー';
         }
     }
 
     function displayWeather(currentData, forecastData) {
         const widget = document.getElementById('weather-widget');
-        const currentTemp = Math.round(currentData.main.temp);
-        const humidity = currentData.main.humidity;
+        const temp = Math.round(currentData.main.temp);
         const icon = weatherIcons[currentData.weather[0].icon] || '🌡️';
-        const description = currentData.weather[0].description;
-
-        const forecastsByDate = {};
-        forecastData.list.forEach(f => {
-            const date = f.dt_txt.split(' ')[0];
-            if (!forecastsByDate[date]) forecastsByDate[date] = [];
-            forecastsByDate[date].push(f);
-        });
-
-        const dates = Object.keys(forecastsByDate).slice(1, 3);
-        let forecastHtml = '';
-        dates.forEach(date => {
-            const dayForecasts = forecastsByDate[date];
-            const temps = dayForecasts.map(f => f.main.temp);
-            const mid = dayForecasts[Math.floor(dayForecasts.length / 2)];
-            forecastHtml += `
-                <div class="forecast-item">
-                    <strong>${date.split('-')[1]}/${date.split('-')[2]}</strong>
-                    <div class="forecast-item-icon">${weatherIcons[mid.weather[0].icon] || '🌡️'}</div>
-                    <div>${Math.round(Math.max(...temps))}° / ${Math.round(Math.min(...temps))}°</div>
-                </div>`;
-        });
-
         widget.innerHTML = `
             <h3>🌏 台北の天気</h3>
             <div class="weather-icon">${icon}</div>
-            <div class="weather-main">
-                <div>気温: ${currentTemp}°C</div>
-                <div>湿度: ${humidity}%</div>
-            </div>
-            <div style="font-size: 0.9em;">${description}</div>
-            <div class="weather-forecast">${forecastHtml}</div>
+            <div>気温: ${temp}°C / ${currentData.weather[0].description}</div>
         `;
     }
 
-    function displayError(message) {
-        document.getElementById('weather-widget').innerHTML = `<div style="padding:20px;">⚠️ ${message}<br><small>キーの有効化まで最大2時間かかります</small></div>`;
-    }
-
     window.addEventListener('DOMContentLoaded', fetchWeather);
-    setInterval(fetchWeather, 30 * 60 * 1000);
 </script>
 
 </body>
 </html>
-
