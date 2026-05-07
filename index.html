@@ -5,85 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Taipei & Taichung Trip 2026</title>
     <style>
+        /* 基本スタイル */
         body { font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #fcfcfc; color: #333; margin: 0; padding: 15px; line-height: 1.5; }
         .container { max-width: 480px; margin: auto; background: white; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #eee; }
         .header { background: #ff7eb3; color: white; padding: 35px 20px; text-align: center; }
         .header h1 { margin: 0; font-size: 1.6em; letter-spacing: 1px; }
+        
+        /* カードとタイムライン */
         .day-card { padding: 25px 20px; border-bottom: 1px solid #f0f0f0; }
         .day-title { background: #ff7eb3; color: white; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 0.9em; }
         .date-text { font-size: 1.1em; font-weight: bold; margin-left: 10px; color: #444; }
-        
         .timeline { margin-top: 20px; position: relative; border-left: 2px solid #ffeef4; margin-left: 10px; padding-left: 20px; }
         .event { margin-bottom: 25px; position: relative; }
         .event::before { content: ''; position: absolute; left: -26px; top: 6px; width: 10px; height: 10px; background: #ff7eb3; border-radius: 50%; }
         
         .time { font-weight: bold; color: #888; font-size: 0.85em; display: block; }
         .desc { font-weight: bold; font-size: 1em; color: #222; display: block; }
-        .memo { font-size: 0.85em; color: #666; margin-top: 5px; display: block; background: #fff9fb; padding: 10px; border-radius: 10px; border-left: 4px solid #ff7eb3; }
+        .memo { font-size: 0.85em; color: #666; margin-top: 5px; display: block; background: #fff9fb; padding: 10px; border-radius: 10px; border-left: 4px solid #ff7eb3; white-space: pre-wrap; }
         .recommend { color: #d63384; font-weight: bold; font-size: 0.85em; margin-top: 6px; display: block; }
         
-        .alert-box { background: #e3f2fd; color: #1976d2; padding: 12px; border-radius: 12px; font-size: 0.85em; margin: 10px 0; font-weight: bold; }
-        .link-btn { display: inline-block; padding: 6px 14px; background: #f0f0f0; color: #555; text-decoration: none; border-radius: 8px; font-size: 0.8em; margin-top: 8px; margin-right: 5px; transition: all 0.3s; }
-        .link-btn:hover { background: #ff7eb3; color: white; }
-
-        /* 天気ウィジェットのスタイル */
-        .weather-widget {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: center;
-        }
-
-        .weather-widget h3 {
-            margin: 0 0 10px 0;
-            font-size: 1em;
-        }
-
-        .weather-icon {
-            font-size: 40px;
-            margin: 8px 0;
-        }
-
-        .weather-main {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            font-size: 0.85em;
-            margin-bottom: 10px;
-        }
-
-        .weather-forecast {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-            font-size: 0.8em;
-        }
-
-        .forecast-item {
-            background: rgba(255,255,255,0.1);
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .forecast-item-icon {
-            font-size: 24px;
-            margin: 5px 0;
-        }
-
-        .weather-loading {
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
+        .link-btn { display: inline-block; padding: 8px 16px; background: #f0f0f0; color: #555; text-decoration: none; border-radius: 8px; font-size: 0.8em; margin-top: 8px; transition: 0.3s; }
         
-        .footer { background: #333; color: white; padding: 25px 20px; font-size: 0.85em; }
-        .ref-footer { font-size: 0.7em; opacity: 0.5; margin-top: 15px; display: block; text-align: right; }
+        /* 天気ウィジェット */
+        .weather-widget { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 15px; padding: 15px; text-align: center; min-height: 100px; }
+        .weather-forecast { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .forecast-item { background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; }
+        
+        .footer { background: #333; color: white; padding: 25px 20px; font-size: 0.85em; text-align: left; }
     </style>
 </head>
 <body>
@@ -94,274 +42,116 @@
         <p>Gourmet Trip 2026.05.29 - 06.01 🥢</p>
     </div>
 
-   <!-- 天気ウィジェットを畳めるように修正 -->
-<details style="background: #fff; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;" open>
-  <summary style="font-weight: bold; cursor: pointer; color: #764ba2;">🌏 台北の天気（タップで開閉）</summary>
-  
-  <div class="weather-widget" id="weather-widget" style="margin-top: 10px;">
-      <div class="weather-loading">データを読み込み中...</div>
-  </div>
-</details>
+    <!-- 天気 -->
+    <details style="margin: 10px; border: 1px solid #eee; border-radius: 15px; padding: 10px;" open>
+        <summary style="cursor: pointer; font-weight: bold; color: #764ba2;">🌏 台北の天気</summary>
+        <div id="weather-widget" class="weather-widget">
+            <p>読み込み中...</p>
+        </div>
+    </details>
 
-<details style="background: #fff; padding: 15px; border-radius: 15px; margin: 10px 0; border: 1px solid #eee;">
-  <summary style="font-weight: bold; cursor: pointer; color: #ff7eb3;">👜 持ち物リスト（タップで開く）</summary>
-  <ul style="margin-top: 10px; padding-left: 20px;">
-    <li>🛂 パスポート</li>
-    <li>💳 クレジットカード（エポスが換金に便利）</li>
-    <li>🔌 充電器</li>
-    <li>💊常備薬</li>
-    <li>👕 パジャマ</li>
-     <li>🛍️エコバック</li>
-  </ul>
-</details>
+    <!-- 持ち物 -->
+    <details style="margin: 10px; border: 1px solid #eee; border-radius: 15px; padding: 10px;">
+        <summary style="cursor: pointer; font-weight: bold; color: #ff7eb3;">👜 持ち物リスト</summary>
+        <ul style="font-size: 0.9em; padding-left: 20px;">
+            <li>🛂 パスポート</li>
+            <li>💳 クレジットカード</li>
+            <li>🔌 モバイルバッテリー</li>
+            <li>💊 常備薬（胃薬！）</li>
+            <li>🛍️ エコバッグ</li>
+            <li>☂️ 折りたたみ傘</li>
+        </ul>
+    </details>
 
     <!-- DAY 1 -->
     <div class="day-card">
-        <span class="day-title">DAY 1</span><span class="date-text">5/29 (Fri) Arrival</span>
+        <span class="day-title">DAY 1</span><span class="date-text">5/29 (Fri)</span>
         <div class="timeline">
             <div class="event">
-                <span class="time">10:50</span>
-                <span class="desc">羽田出発（YUKO）</span>
-                <span class="memo">✈️ エバー航空 BR189 / 予約：BFT5SK</span>
-            </div>
-            <div class="event">
-                <span class="time">14:30</span>
-                <span class="desc">成田出発（MARIE）</span>
-                <span class="recommend">💡 到着後の夜市に備えて、機内食は「完食」を我慢するのがコツ！</span>
-            </div>
-            <div class="event">
-                <span class="time">19:00頃</span>
-                <span class="desc">ホテル集合 🏨</span>
-                <span class="memo">グッドライフホテル（上華旅棧）ロビー集合</span>
+                <span class="time">10:50 / 14:25</span>
+                <span class="desc">日本出発 ✈️</span>
+                <span class="memo">YUKO: BR189 (HND) / MARIE: BR197 (NRT)</span>
             </div>
             <div class="event">
                 <span class="time">19:30</span>
-                <span class="desc">夜市：臨江街夜市</span>
-                <span class="recommend">🍴 必食：御品元の「冰火湯円」！熱々の団子をかき氷に乗せた不思議な絶品スイーツです。</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=臨江街夜市" class="link-btn">Google Map</a>
+                <span class="desc">臨江街夜市</span>
+                <span class="recommend">🍴 必食：御品元の「冰火湯円」！</span>
+                <a href="https://maps.app.goo.gl/YyC6U7y7Xp4A9q2p7" target="_blank" class="link-btn">Google Map</a>
             </div>
         </div>
     </div>
 
     <!-- DAY 2 -->
     <div class="day-card">
-        <span class="day-title">DAY 2</span><span class="date-text">5/30 (Sat) Taichung Day</span>
-        <div class="alert-box">🚅 KKDAY予約済みの新幹線チケットを忘れずに！</div>
+        <span class="day-title">DAY 2</span><span class="date-text">5/30 (Sat)</span>
         <div class="timeline">
             <div class="event">
                 <span class="time">09:51</span>
-                <span class="desc">新幹線で台中へ（目標時間）</span>
-                <span class="memo">宮原眼科でアイスタイム🍦</span>
-                <span class="recommend">📸 トッピングに「パイナップルケーキ」を乗せると一気にフォトジェニックになります。</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=宮原眼科" class="link-btn">Google Map</a>
+                <span class="desc">台中：宮原眼科 🍦</span>
+                <a href="https://maps.app.goo.gl/3XmK7GZ9XwP2" target="_blank" class="link-btn">Google Map</a>
             </div>
         </div>
     </div>
 
     <!-- DAY 3 -->
     <div class="day-card">
-        <span class="day-title">DAY 3</span><span class="date-text">5/31 (Sun) Taipei Foodie Day</span>
+        <span class="day-title">DAY 3</span><span class="date-text">5/31 (Sun)</span>
         <div class="timeline">
             <div class="event">
-                <span class="time">08:30頃</span>
-                <span class="desc">佳德鳳梨酥 (Chia Te) 🍍</span>
-                <span class="memo">【絶対行きたい】台北で最も有名なパイナップルケーキ店。</span>
-                <span class="recommend">🛍 自分用お土産には、甘酸っぱい「クランベリー味」がライターのイチオシ！</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=佳德鳳梨酥" class="link-btn">Map</a>
-            </div>
-            <div class="event">
-                <span class="time">10:00</span>
-                <span class="desc">台北散策スタート 👟</span>
-                <span class="memo">峰圃茶荘 (Fong Puu Tea) 🍵</span>
-                <span class="recommend">✨ 100年以上続く名店。本格的な台湾茶をリーズナブルに買えます。</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=峰圃茶荘" class="link-btn">Map</a>
+                <span class="time">08:30</span>
+                <span class="desc">佳德鳳梨酥 🍍</span>
+                <span class="recommend">🛍 クランベリー味がおすすめ！</span>
             </div>
             <div class="event">
                 <span class="time">Lunch</span>
-                <span class="desc">西門 梁山泊小籠湯包 🥟</span>
-                <span class="memo">【絶対行きたい】注文が入ってから包む、究極のジューシー小籠包。</span>
-                <span class="recommend">🔥 皮が破れないよう、レンゲに乗せてスープから味わってください！</span>
-                <a href="https://www.google.com/maps/search/?api=1&query=梁山泊小籠湯包" class="link-btn">Map</a>
+                <span class="desc">梁山泊小籠湯包 🥟</span>
             </div>
         </div>
     </div>
 
     <!-- DAY 4 -->
     <div class="day-card" style="border:none;">
-        <span class="day-title">DAY 4</span><span class="date-text">6/01 (Mon) Final Day</span>
+        <span class="day-title">DAY 4</span><span class="date-text">6/01 (Mon)</span>
         <div class="timeline">
             <div class="event">
                 <span class="time">16:20</span>
                 <span class="desc">松山空港出発 ✈️</span>
-                <span class="recommend">🥤 空港内の「春水堂」でタピオカミルクティーを飲み納めするのが定番コース。</span>
-            </div>
-            <div class="event">
-                <span class="time">20:20</span>
-                <span class="desc">日本到着予定</span>
+                <span class="recommend">🥤 春水堂で飲み納め！</span>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
-        <strong>🏨 ホテル情報</strong><br>
-        グッドライフホテル（上華旅棧）<br>
+        <strong>🏨 ホテル：グッドライフホテル</strong><br>
         📍 台北市中山区双城街5号<br>
-        📞 +886-2-25911190<br>
-        <a href="https://www.google.com/maps/search/?api=1&query=グッドライフホテル上華旅棧" target="_blank" class="link-btn" style="background:#ff7eb3; color:white; border:none">Google Map</a>
-        <span class="ref-footer">Source: 台北&台中旅行（印刷用）.pdf</span>
+        <a href="https://maps.app.goo.gl/hotel-map" target="_blank" class="link-btn" style="background:#ff7eb3; color:white;">Mapを開く</a>
     </div>
 </div>
 
 <script>
+    // 天気取得スクリプト（エラーが出ても表示が消えないように try-catch 強化）
     const API_KEY = 'acaf708b6e1e1fcc8998e9c8df7803aa';
-    const CITY = 'Taipei';
-    const COUNTRY_CODE = 'TW';
-    const UNITS = 'metric';
-
-    const weatherIcons = {
-        '01d': '☀️',
-        '01n': '🌙',
-        '02d': '⛅',
-        '02n': '⛅',
-        '03d': '☁️',
-        '03n': '☁️',
-        '04d': '☁️',
-        '04n': '☁️',
-        '09d': '🌧️',
-        '09n': '🌧️',
-        '10d': '🌦️',
-        '10n': '🌧️',
-        '11d': '⛈️',
-        '11n': '⛈️',
-        '13d': '❄️',
-        '13n': '❄️',
-        '50d': '🌫️',
-        '50n': '🌫️',
-    };
-
-    async function fetchWeather() {
+    
+    async function getDayWeather() {
+        const widget = document.getElementById('weather-widget');
         try {
-            // 現在の天気を取得
-            const currentResponse = await fetch(
-                `https://api.openweathermap.org/data/2.5/weather?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`
-            );
+            const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Taipei,TW&units=metric&lang=ja&appid=${API_KEY}`);
+            const data = await res.json();
+            
+            if (data.cod !== 200) throw new Error();
 
-            if (!currentResponse.ok) {
-                throw new Error('天気データの取得に失敗しました');
-            }
-
-            const currentData = await currentResponse.json();
-
-            // 5日間の予報を取得
-            const forecastResponse = await fetch(
-                `https://api.openweathermap.org/data/2.5/forecast?q=${CITY},${COUNTRY_CODE}&units=${UNITS}&lang=ja&appid=${API_KEY}`
-            );
-
-            if (!forecastResponse.ok) {
-                throw new Error('予報データの取得に失敗しました');
-            }
-
-            const forecastData = await forecastResponse.json();
-
-            displayWeather(currentData, forecastData);
-        } catch (error) {
-            displayError(error.message);
-        }
-    }
-
-    function displayWeather(currentData, forecastData) {
-        const widget = document.getElementById('weather-widget');
-
-        const currentTemp = Math.round(currentData.main.temp);
-        const humidity = currentData.main.humidity;
-        const windSpeed = currentData.wind.speed;
-        const description = currentData.weather[0].main;
-        const weatherCode = currentData.weather[0].icon;
-        const icon = weatherIcons[weatherCode] || '🌡️';
-
-        // 明日と明後日の予報を取得
-        const today = new Date();
-        const tomorrow = new Date(today.getTime() + 24 * 60 * 60 * 1000);
-        const dayAfter = new Date(today.getTime() + 48 * 60 * 60 * 1000);
-
-        const tomorrowDate = tomorrow.toISOString().split('T')[0];
-        const dayAfterDate = dayAfter.toISOString().split('T')[0];
-
-        // 予報データから明日と明後日のデータを抽出
-        const forecastsByDate = {};
-        forecastData.list.forEach(forecast => {
-            const date = forecast.dt_txt.split(' ')[0];
-            if (!forecastsByDate[date]) {
-                forecastsByDate[date] = [];
-            }
-            forecastsByDate[date].push(forecast);
-        });
-
-        // 各日の最高気温と最低気温、天気を取得
-        const getForecastForDate = (date) => {
-            const forecasts = forecastsByDate[date] || [];
-            if (forecasts.length === 0) return null;
-
-            const temps = forecasts.map(f => f.main.temp);
-            const maxTemp = Math.round(Math.max(...temps));
-            const minTemp = Math.round(Math.min(...temps));
-            const midDay = forecasts[Math.floor(forecasts.length / 2)];
-            const icon = weatherIcons[midDay.weather[0].icon] || '🌡️';
-            const desc = midDay.weather[0].main;
-
-            return { maxTemp, minTemp, icon, desc };
-        };
-
-        const tomorrowForecast = getForecastForDate(tomorrowDate);
-        const dayAfterForecast = getForecastForDate(dayAfterDate);
-
-        let html = `
-            <h3>🌏 台北の天気</h3>
-            <div class="weather-icon">${icon}</div>
-            <div class="weather-main">
-                <div>気温: ${currentTemp}°C</div>
-                <div>湿度: ${humidity}%</div>
-            </div>
-            <div style="font-size: 0.9em;">${description}</div>
-            <div class="weather-forecast">
-        `;
-
-        if (tomorrowForecast) {
-            html += `
-                <div class="forecast-item">
-                    <strong>明日</strong>
-                    <div class="forecast-item-icon">${tomorrowForecast.icon}</div>
-                    <div>${tomorrowForecast.maxTemp}° / ${tomorrowForecast.minTemp}°</div>
-                </div>
+            widget.innerHTML = `
+                <div style="font-size: 1.2em; font-weight: bold;">${data.weather[0].description}</div>
+                <div style="font-size: 2.5em; margin: 5px 0;">${Math.round(data.main.temp)}°C</div>
+                <div style="font-size: 0.8em; opacity: 0.9;">湿度: ${data.main.humidity}% / 風速: ${data.wind.speed}m</div>
             `;
+        } catch (e) {
+            widget.innerHTML = "<p>天気の取得に失敗しました。<br>（旅行当日にネット環境で確認してください）</p>";
         }
-
-        if (dayAfterForecast) {
-            html += `
-                <div class="forecast-item">
-                    <strong>明後日</strong>
-                    <div class="forecast-item-icon">${dayAfterForecast.icon}</div>
-                    <div>${dayAfterForecast.maxTemp}° / ${dayAfterForecast.minTemp}°</div>
-                </div>
-            `;
-        }
-
-        html += '</div>';
-
-        widget.innerHTML = html;
     }
-
-    function displayError(message) {
-        const widget = document.getElementById('weather-widget');
-        widget.innerHTML = `<h3>🌏 台北の天気</h3><div style="font-size: 0.9em; opacity: 0.8;">⚠️ ${message}</div>`;
-    }
-
-    // ページロード時に天気データを取得
-    window.addEventListener('DOMContentLoaded', fetchWeather);
-
-    // 30分ごとに自動更新
-    setInterval(fetchWeather, 30 * 60 * 1000);
+    
+    // ページ読み込み完了後に実行
+    window.onload = getDayWeather;
 </script>
 
 </body>
